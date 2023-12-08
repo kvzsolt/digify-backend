@@ -1,7 +1,7 @@
 # Digify
 
 ## Description
-Digify is a modern technology news portal offering the latest updates and trends in technology. This backend part is built using Java Spring Boot REST API.
+Digify is a modern technology news portal. This backend part is built using Java Spring Boot REST API.
 
 ## Technology Stack
 **Programming Language:** Java

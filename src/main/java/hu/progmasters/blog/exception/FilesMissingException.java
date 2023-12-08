@@ -1,4 +1,4 @@
-package hu.progmasters.angularblog.exception;
+package hu.progmasters.blog.exception;
 
 import lombok.Getter;
 

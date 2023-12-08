@@ -1,0 +1,40 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        show_sql: true
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    protocol: ${MAIL_PROTOCOL}
+    default-encoding: utf-8
+    properties.mail.smtp:
+      auth: ${MAIL_SMTP_AUTH}
+      starttls.enable: ${MAIL_SMTP_STARTTLS_ENABLE}
+      starttls.required: ${MAIL_SMTP_STARTTLS_REQUIRED}
+      ssl.trust: ${MAIL_SMTP_SSL_TRUST}
+cloudinary:
+  cloudName: ${CLOUDINARY_CLOUD_NAME}
+  apiKey: ${CLOUDINARY_API_KEY}
+  apiSecret: ${CLOUDINARY_API_SECRET}
+openai:
+  api:
+    key: ${OPENAI_API_KEY}
+google:
+  maps:
+    api:
+      key: ${GOOGLE_MAPS_API_KEY}
+billingo:
+  api:
+    key: ${BILLINGO_API_KEY}
+paypal:
+  clientID: ${PAYPAL_CLIENT_ID}
+  clientSecret: ${PAYPAL_CLIENT_SECRET}

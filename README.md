@@ -70,6 +70,14 @@ Digify is committed to providing an inclusive and accessible platform, leveragin
   - Cloudinary
   - Apache Tika
   - Swagger
+ 
+## Future Plans
+
+### Refactoring
+I'll be dedicating time to refine and enhance the codebase. This means improving the code's readability and performance through ongoing refactoring efforts.
+
+### Structure Refactor
+In order to make the project more organized and adaptable, I'll be reviewing and adjusting its overall structure. This includes tidying up directories and streamlining naming conventions for a more polished codebase.
 
 ## Environment Variables
 To run this project, you will need to set the following environment variables to the `.env` file:

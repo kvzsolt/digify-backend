@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+import static hu.progmasters.blog.controller.constants.Endpoints.COMMENTS_MAPPING;
+
 @RestController
-@RequestMapping("/api/comments")
+@RequestMapping(COMMENTS_MAPPING)
 @AllArgsConstructor
 @Slf4j
 public class CommentController {

@@ -9,8 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static hu.progmasters.blog.controller.constants.Endpoints.BILLINGO_MAPPING;
+
 @RestController
-@RequestMapping("/api/public/billingo")
+@RequestMapping(BILLINGO_MAPPING)
 @Slf4j
 @AllArgsConstructor
 public class BillingoController {

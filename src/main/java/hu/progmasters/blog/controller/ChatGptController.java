@@ -8,8 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import static hu.progmasters.blog.controller.constants.Endpoints.GPT_MAPPING;
+
 @RestController
-@RequestMapping("/api/gpt")
+@RequestMapping(GPT_MAPPING)
 @PreAuthorize("hasRole('ROLE_USER') and @customUserDetailsService.isUserPremium(authentication.name) or hasRole('ROLE_AUTHOR')")
 @AllArgsConstructor
 @Slf4j

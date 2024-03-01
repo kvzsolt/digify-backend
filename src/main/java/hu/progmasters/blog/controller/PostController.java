@@ -23,8 +23,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import static hu.progmasters.blog.controller.constants.Endpoints.POSTS_MAPPING;
+
 @RestController
-@RequestMapping("/api/posts")
+@RequestMapping(POSTS_MAPPING)
 @AllArgsConstructor
 @Slf4j
 public class PostController {

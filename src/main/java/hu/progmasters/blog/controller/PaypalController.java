@@ -14,9 +14,11 @@ import org.springframework.web.servlet.view.RedirectView;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import static hu.progmasters.blog.controller.constants.Endpoints.PAYPAL_MAPPING;
+
 @RestController
 @Slf4j
-@RequestMapping(value = "/api/paypal")
+@RequestMapping(PAYPAL_MAPPING)
 @CrossOrigin(origins = "https://api-m.sandbox.paypal.com/v2/checkout/orders")
 @PreAuthorize("hasRole('ROLE_USER')")
 @AllArgsConstructor

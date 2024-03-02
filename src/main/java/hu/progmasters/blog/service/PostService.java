@@ -7,8 +7,8 @@ import hu.progmasters.blog.dto.google.TranslateReq;
 import hu.progmasters.blog.dto.post.*;
 import hu.progmasters.blog.domain.PostCategory;
 import hu.progmasters.blog.domain.PostTag;
-import hu.progmasters.blog.exception.DateEarlierThanTheCurrentOneException;
-import hu.progmasters.blog.exception.NotFoundPostException;
+import hu.progmasters.blog.exception.posts.PastDateException;
+import hu.progmasters.blog.exception.posts.NotFoundPostException;
 import hu.progmasters.blog.repository.AccountRepository;
 import hu.progmasters.blog.repository.PostRepository;
 import hu.progmasters.blog.service.google.CloudStorageService;
@@ -77,7 +77,7 @@ public class PostService {
         LocalDateTime scheduledTime = LocalDateTime.of(now.toLocalDate(), desiredTime);
 
         if (now.isAfter(scheduledTime)) {
-            throw new DateEarlierThanTheCurrentOneException();
+            throw new PastDateException();
         }
 
         Post newPost = createPost(createPostReq);
@@ -93,7 +93,7 @@ public class PostService {
                 sheduledPost.setCreatedAt(LocalDateTime.now());
                 sheduledPost.setDeleted(false);
                 postRepository.save(sheduledPost);
-                log.info("Scheduled post created ", LocalDateTime.now());
+                log.info("Scheduled post created " + LocalDateTime.now());
             } else {
                 postRepository.delete(sheduledPost);
             }

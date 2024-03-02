@@ -1,7 +1,7 @@
 package hu.progmasters.blog.controller;
 
 import hu.progmasters.blog.domain.PostTag;
-import hu.progmasters.blog.exception.NotFoundPostTagException;
+import hu.progmasters.blog.exception.posts.NotFoundPostTagException;
 import hu.progmasters.blog.service.TagService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

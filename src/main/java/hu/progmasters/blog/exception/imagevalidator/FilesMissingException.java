@@ -1,4 +1,4 @@
-package hu.progmasters.blog.exception;
+package hu.progmasters.blog.exception.imagevalidator;
 
 import lombok.Getter;
 

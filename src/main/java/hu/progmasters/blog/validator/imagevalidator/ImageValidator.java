@@ -1,6 +1,6 @@
 package hu.progmasters.blog.validator.imagevalidator;
 
-import hu.progmasters.blog.exception.NoImageException;
+import hu.progmasters.blog.exception.imagevalidator.NoImageException;
 import org.apache.tika.Tika;
 import org.springframework.web.multipart.MultipartFile;
 

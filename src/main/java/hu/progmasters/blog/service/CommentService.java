@@ -5,7 +5,7 @@ import hu.progmasters.blog.domain.Post;
 import hu.progmasters.blog.dto.comment.ListCommentsRes;
 import hu.progmasters.blog.dto.comment.CommentEditReq;
 import hu.progmasters.blog.dto.comment.CommentFormReq;
-import hu.progmasters.blog.exception.NotFoundCommentException;
+import hu.progmasters.blog.exception.comment.NotFoundCommentException;
 import hu.progmasters.blog.repository.CommentRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 

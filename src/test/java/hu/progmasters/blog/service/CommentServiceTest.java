@@ -5,7 +5,7 @@ import hu.progmasters.blog.domain.Comment;
 import hu.progmasters.blog.dto.comment.CommentEditReq;
 import hu.progmasters.blog.dto.comment.CommentFormReq;
 import hu.progmasters.blog.dto.comment.ListCommentsRes;
-import hu.progmasters.blog.exception.NotFoundCommentException;
+import hu.progmasters.blog.exception.comment.NotFoundCommentException;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

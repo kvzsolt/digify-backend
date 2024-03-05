@@ -1,7 +1,7 @@
 package hu.progmasters.blog.controller;
 
 import hu.progmasters.blog.domain.Comment;
-import hu.progmasters.blog.exception.NotFoundCommentException;
+import hu.progmasters.blog.exception.comment.NotFoundCommentException;
 import hu.progmasters.blog.service.CommentService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

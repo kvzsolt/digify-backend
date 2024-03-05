@@ -1,4 +1,4 @@
-package hu.progmasters.blog.exception;
+package hu.progmasters.blog.exception.category;
 
 public class CategoryNotExistsException extends RuntimeException {
 }

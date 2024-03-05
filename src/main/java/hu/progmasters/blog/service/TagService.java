@@ -4,7 +4,7 @@ import hu.progmasters.blog.domain.Post;
 import hu.progmasters.blog.domain.PostTag;
 import hu.progmasters.blog.dto.tag.ListPostTagsRes;
 import hu.progmasters.blog.dto.tag.TagCreationReq;
-import hu.progmasters.blog.exception.NotFoundPostTagException;
+import hu.progmasters.blog.exception.posts.NotFoundPostTagException;
 import hu.progmasters.blog.repository.TagsRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

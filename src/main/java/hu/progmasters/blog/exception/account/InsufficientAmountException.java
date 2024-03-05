@@ -1,4 +1,4 @@
-package hu.progmasters.blog.exception;
+package hu.progmasters.blog.exception.account;
 
 import lombok.Getter;
 

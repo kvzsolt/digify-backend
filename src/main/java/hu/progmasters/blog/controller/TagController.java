@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+import static hu.progmasters.blog.controller.constants.Endpoints.TAG_MAPPING;
+
 @RestController
-@RequestMapping("/api/tag")
+@RequestMapping(TAG_MAPPING)
 @AllArgsConstructor
 @Slf4j
 public class TagController {

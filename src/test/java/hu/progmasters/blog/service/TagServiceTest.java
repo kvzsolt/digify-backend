@@ -4,7 +4,7 @@ import hu.progmasters.blog.domain.PostTag;
 import hu.progmasters.blog.dto.tag.ListPostTagsRes;
 import hu.progmasters.blog.dto.tag.TagCreationReq;
 import hu.progmasters.blog.dto.tag.TagDetails;
-import hu.progmasters.blog.exception.NotFoundPostTagException;
+import hu.progmasters.blog.exception.posts.NotFoundPostTagException;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

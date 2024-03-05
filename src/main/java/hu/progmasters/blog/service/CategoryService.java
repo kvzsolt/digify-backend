@@ -3,7 +3,7 @@ package hu.progmasters.blog.service;
 import hu.progmasters.blog.domain.PostCategory;
 import hu.progmasters.blog.dto.category.CategoryCreateReq;
 import hu.progmasters.blog.dto.category.CategoryListItemReq;
-import hu.progmasters.blog.exception.CategoryNotExistsException;
+import hu.progmasters.blog.exception.category.CategoryNotExistsException;
 import hu.progmasters.blog.repository.CategoryRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;

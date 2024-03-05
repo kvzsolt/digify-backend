@@ -1,6 +1,6 @@
 package hu.progmasters.blog.validator.imagevalidator;
 
-import hu.progmasters.blog.exception.FileSizeException;
+import hu.progmasters.blog.exception.imagevalidator.FileSizeException;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.ConstraintValidator;

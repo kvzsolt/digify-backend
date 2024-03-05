@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import static hu.progmasters.blog.controller.constants.Endpoints.EVENTS_MAPPING;
+
 @RestController
-@RequestMapping("/api/events")
+@RequestMapping(EVENTS_MAPPING)
 @AllArgsConstructor
 @Slf4j
 public class EventController {

@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static hu.progmasters.blog.controller.constants.Endpoints.AUTH_MAPPING;
+
 @RestController
 @AllArgsConstructor
 @Slf4j
-@RequestMapping(path = "/api/user")
+@RequestMapping(AUTH_MAPPING)
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;

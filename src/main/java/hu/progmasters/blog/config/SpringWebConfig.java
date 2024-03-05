@@ -36,13 +36,8 @@ public class SpringWebConfig implements WebMvcConfigurer {
 
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
-
-        registry.addResourceHandler("post-detail.html")
-                .addResourceLocations("classpath:/templates/");
-
-        registry.addResourceHandler("/static/**")
-                .addResourceLocations("classpath:/static/");
     }
+
     @Bean
     public DispatcherServlet dispatcherServlet() {
         return new DispatcherServlet();

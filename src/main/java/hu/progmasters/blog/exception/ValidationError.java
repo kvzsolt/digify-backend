@@ -1,49 +1,30 @@
 package hu.progmasters.blog.exception;
 
-import java.util.ArrayList;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Singular;
+
 import java.util.List;
 
+@Getter
 public class ValidationError {
-    private List<CustomFieldError> fieldErrors = new ArrayList<>();
 
-    void addFieldError(String field, String message) {
-        CustomFieldError error = new CustomFieldError(field, message);
-        fieldErrors.add(error);
+    @Singular
+    private final List<CustomFieldError> fieldErrors;
+
+    @Builder
+    private ValidationError(List<CustomFieldError> fieldErrors) {
+        this.fieldErrors = fieldErrors;
     }
 
-    public List<CustomFieldError> getFieldErrors() {
-        return fieldErrors;
+    public void addFieldError(String field, String message) {
+        fieldErrors.add(new CustomFieldError(field, message));
     }
 
-    public void setFieldErrors(List<CustomFieldError> customFieldErrors) {
-        this.fieldErrors = customFieldErrors;
-    }
-
-
-    private static class CustomFieldError {
-
-        private String field;
-        private String message;
-
-        CustomFieldError(String field, String message) {
-            this.field = field;
-            this.message = message;
-        }
-
-        public String getField() {
-            return field;
-        }
-
-        public void setField(String field) {
-            this.field = field;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
+    @Getter
+    @Builder
+    static class CustomFieldError {
+        private final String field;
+        private final String message;
     }
 }

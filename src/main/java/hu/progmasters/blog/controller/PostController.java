@@ -23,8 +23,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import static hu.progmasters.blog.controller.constants.Endpoints.POSTS_MAPPING;
+
 @RestController
-@RequestMapping("/api/posts")
+@RequestMapping(POSTS_MAPPING)
 @AllArgsConstructor
 @Slf4j
 public class PostController {
@@ -39,7 +41,7 @@ public class PostController {
     public ResponseEntity createPost(@Valid @RequestBody CreatePostReq createPostReq) throws DocumentException, IOException {
         postService.createPost(createPostReq);
         log.info("Http request, POST /api/posts/ Post created");
-//        emailService.sendEmail("blogprogmasters@gmail.com", "Post created", "Http request, POST /api/posts/ Post created");
+        emailService.sendEmail("blogprogmasters@gmail.com", "Post created", "Http request, POST /api/posts/ Post created");
         return new ResponseEntity(HttpStatus.CREATED);
     }
 

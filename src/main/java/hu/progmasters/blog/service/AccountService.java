@@ -7,8 +7,8 @@ import hu.progmasters.blog.dto.account.UserInfo;
 import hu.progmasters.blog.dto.security.NewPasswordReq;
 import hu.progmasters.blog.dto.security.RegistrationReq;
 import hu.progmasters.blog.dto.security.interfaces.PasswordConfirmable;
-import hu.progmasters.blog.exception.NotFoundAccountException;
-import hu.progmasters.blog.exception.PasswordMismatchException;
+import hu.progmasters.blog.exception.account.AccountNotFoundException;
+import hu.progmasters.blog.exception.account.PasswordMismatchException;
 import hu.progmasters.blog.repository.PostRepository;
 import hu.progmasters.blog.security.JwtTokenUtil;
 import hu.progmasters.blog.domain.Account;
@@ -16,7 +16,7 @@ import hu.progmasters.blog.domain.Post;
 import hu.progmasters.blog.domain.enums.AccountRole;
 import hu.progmasters.blog.dto.post.GetPostsShortenedRes;
 import hu.progmasters.blog.dto.security.RegistrationInfo;
-import hu.progmasters.blog.exception.FieldNotAvailableException;
+import hu.progmasters.blog.exception.account.FieldNotAvailableException;
 import hu.progmasters.blog.repository.AccountRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,8 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import javax.security.auth.login.AccountNotFoundException;
 
 @Service
 @Transactional
@@ -105,17 +103,17 @@ public class AccountService {
     }
 
     public Account findAccountById(Long id) {
-        return accountRepository.findById(id).orElseThrow(NotFoundAccountException::new);
+        return accountRepository.findById(id).orElseThrow(AccountNotFoundException::new);
     }
 
     public Account findByEmail(String email) {
-        return accountRepository.findByEmail(email).orElseThrow(NotFoundAccountException::new);
+        return accountRepository.findByEmail(email).orElseThrow(AccountNotFoundException::new);
     }
 
-    public RegistrationInfo resetPasswordRequest(String email) throws AccountNotFoundException {
+    public RegistrationInfo resetPasswordRequest(String email) throws javax.security.auth.login.AccountNotFoundException {
         Account account = findByEmail(email);
         if (account == null) {
-            throw new AccountNotFoundException("Account The specified email address cannot be found: " + email);
+            throw new javax.security.auth.login.AccountNotFoundException("Account The specified email address cannot be found: " + email);
         }
 
         String token = jwtTokenUtil.generatePasswordResetToken(account);
@@ -126,7 +124,7 @@ public class AccountService {
         return new RegistrationInfo("A jelszó visszaállítási linket elküldtük az e-mail címére.");
     }
 
-    public RegistrationInfo resetPassword(String token, NewPasswordReq data) throws AccountNotFoundException {
+    public RegistrationInfo resetPassword(String token, NewPasswordReq data) throws javax.security.auth.login.AccountNotFoundException {
         if (!jwtTokenUtil.validateResetToken(token)) {
             log.error("Token is expired");
         }
@@ -134,7 +132,7 @@ public class AccountService {
         String email = jwtTokenUtil.getEmailFromPasswordResetToken(token);
         Account account = findByEmail(email);
         if (account == null) {
-            throw new AccountNotFoundException("Account The specified email address cannot be found: a token mókolva lett");
+            throw new javax.security.auth.login.AccountNotFoundException("Account The specified email address cannot be found: a token mókolva lett");
         }
         account.setPassword(passwordEncoder.encode(data.getPassword()));
         accountRepository.save(account);

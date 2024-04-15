@@ -3,7 +3,6 @@ package hu.progmasters.blog.repository;
 import hu.progmasters.blog.domain.Comment;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.DirtiesContext;
@@ -24,13 +23,12 @@ public class CommentRepositoryTest {
     @Autowired
     private EntityManager entityManager;
 
-    @Autowired
-    private ModelMapper modelMapper;
+
 
 
     @BeforeEach
     public void setup() {
-        TestPost();
+        createDb();
         entityManager.flush();
     }
 
@@ -63,7 +61,7 @@ public class CommentRepositoryTest {
         assertFalse(result.contains(comment4));
     }
 
-    private void TestPost() {
+    private void createDb() {
         entityManager.createNativeQuery(
                 "INSERT INTO category (category_name) VALUES ('Test Category 1'); " +
                         "INSERT INTO post (title, post_Body, img_Url, category_id, deleted, scheduled, likes) VALUES ('New Post', 'Content','new URL',1 , false, false, 0); " +

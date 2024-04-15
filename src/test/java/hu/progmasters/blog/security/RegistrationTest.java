@@ -8,6 +8,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import static hu.progmasters.blog.controller.constants.Endpoints.ACCOUNT_MAPPING;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -23,6 +24,7 @@ class RegistrationTest {
     @Autowired
     private MockMvc mockMvc;
 
+    private static final String REG_ENDPOINT = ACCOUNT_MAPPING + "/registration";
     @Test
     void test_registrationSuccesful() throws Exception {
         String inputCommand = "{\n" +
@@ -32,7 +34,7 @@ class RegistrationTest {
                 "    \"email\": \"test@example.com\"\n" +
                 "}";
 
-        mockMvc.perform(post("/api/user/registration")
+        mockMvc.perform(post(REG_ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(inputCommand))
                 .andExpect(status().isCreated());
@@ -47,7 +49,7 @@ class RegistrationTest {
                 "    \"email\": \"test@example.com\"\n" +
                 "}";
 
-        mockMvc.perform(post("/api/user/registration")
+        mockMvc.perform(post(REG_ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(inputCommand))
                 .andExpect(status().isBadRequest())
@@ -63,7 +65,7 @@ class RegistrationTest {
                 "    \"email\": \"test@example.com\"\n" +
                 "}";
 
-        mockMvc.perform(post("/api/user/registration")
+        mockMvc.perform(post(REG_ENDPOINT)
                         .with(user("testUser").password("testPassword").roles("USER"))
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(inputCommand))
@@ -80,7 +82,7 @@ class RegistrationTest {
                 "    \"email\": \"test@example.com\"\n" +
                 "}";
 
-        mockMvc.perform(post("/api/user/registration")
+        mockMvc.perform(post(REG_ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(inputCommand))
                 .andExpect(status().isBadRequest())
@@ -95,7 +97,7 @@ class RegistrationTest {
                 "    \"email\": \"test@example.com\"\n" +
                 "}";
 
-        mockMvc.perform(post("/api/user/registration")
+        mockMvc.perform(post(REG_ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(inputCommand))
                 .andExpect(status().isBadRequest())
@@ -111,7 +113,7 @@ class RegistrationTest {
                 "    \"email\": \"test@example.com\"\n" +
                 "}";
 
-        mockMvc.perform(post("/api/user/registration")
+        mockMvc.perform(post(REG_ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(inputCommand))
                 .andExpect(status().isBadRequest())
@@ -127,7 +129,7 @@ class RegistrationTest {
                 "    \"email\": \"test@example.com\"\n" +
                 "}";
 
-        mockMvc.perform(post("/api/user/registration")
+        mockMvc.perform(post(REG_ENDPOINT)
                         .with(user("testUser").password("testPassword").roles("USER"))
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(inputCommand))
@@ -144,7 +146,7 @@ class RegistrationTest {
                 "    \"email\": \"\"\n" +
                 "}";
 
-        mockMvc.perform(post("/api/user/registration")
+        mockMvc.perform(post(REG_ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(inputCommand))
                 .andExpect(status().isBadRequest())
@@ -160,7 +162,7 @@ class RegistrationTest {
                 "    \"email\": \"invalidEmail\"\n" +
                 "}";
 
-        mockMvc.perform(post("/api/user/registration")
+        mockMvc.perform(post(REG_ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(inputCommand))
                 .andExpect(status().isBadRequest())

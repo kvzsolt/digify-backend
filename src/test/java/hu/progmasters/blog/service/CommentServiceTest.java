@@ -34,7 +34,7 @@ public class CommentServiceTest {
     private ModelMapper modelMapper;
     @Test
     void test_createComment() {
-        TestPost();
+        createDb();
         CommentFormReq commentFormReq = new CommentFormReq(1l,"Lajos","test comment");
         commentService.createComment(commentFormReq);
         Comment comment = commentService.findCommentById(5L);
@@ -43,14 +43,14 @@ public class CommentServiceTest {
     }
     @Test
     void test_findCommentById(){
-        TestPost();
+        createDb();
         Comment comment = commentService.findCommentById(1L);
         assertEquals("2023-11-26T00:00", comment.getCreatedAt().toString());
         assertEquals("comment", comment.getCommentBody());
     }
     @Test
     void test_editComment() {
-        TestPost();
+        createDb();
         Comment comment = commentService.findCommentById(1L);
         assertEquals("comment", comment.getCommentBody());
 
@@ -62,16 +62,16 @@ public class CommentServiceTest {
 
     @Test
     void test_deleteComment() {
-        TestPost();
+        createDb();
         Comment comment = commentService.findCommentById(1L);
-        assertTrue(comment.getCommentBody().equals("comment"));
+        assertEquals("comment", comment.getCommentBody());
         commentService.deleteComment(1L);
         assertThrows(NotFoundCommentException.class,()->commentService.findCommentById(1L) );
     }
 
     @Test
     void test_getCommentsList(){
-        TestPost();
+        createDb();
         List<ListCommentsRes> result = commentService.getCommentsList(1L);
         Comment comment = entityManager.find(Comment.class,1L);
         Comment comment2 = entityManager.find(Comment.class,2L);
@@ -81,7 +81,7 @@ public class CommentServiceTest {
         assertTrue(result.contains(modelMapper.map(comment3,ListCommentsRes.class)));
     }
 
-    private void TestPost() {
+    private void createDb() {
         entityManager.createNativeQuery(
                 "INSERT INTO category (category_name) VALUES ('Test Category 1'); " +
                         "INSERT INTO account (username,password,role,email,newsletter,premium) VALUES ('testUser', '$2a$10$RVP8Q2ybES8dJVGbJP54xehMmrzetBxHJZzNNhvBvRmv2gl7bkNt2', 2,'elek@elek.com', true, true);" +

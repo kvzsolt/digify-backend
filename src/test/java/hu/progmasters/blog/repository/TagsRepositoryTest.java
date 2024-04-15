@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
@@ -53,7 +54,7 @@ public class TagsRepositoryTest {
 
         Optional<PostTag> result = tagsRepository.findByTagByNameByPostId("New tag", 1L);
         PostTag tags = entityManager.find(PostTag.class, 1L);
-        assertTrue(result.get().getTagsName().equals(tags.getTagsName()));
+        assertEquals(result.get().getTagsName(), tags.getTagsName());
     }
 
     private void TestPost() {

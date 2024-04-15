@@ -63,10 +63,10 @@ public class PostController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN') or (hasRole('ROLE_AUTHOR') and @customPermissionEvaluator.isOwnPost(authentication, #id))")
-    @PutMapping("/scheduled/deleted/{postId}")
+    @PutMapping("/scheduled/delete/{postId}")
     public ResponseEntity deleteSheduledPost(@PathVariable("postId") Long id) {
         postService.deleteScheduledPost(id);
-        log.info("Http request, PUT /api/posts/scheduled/deleted/{postId}" + id + " Scheduled post deleted");
+        log.info("Http request, PUT /api/posts/scheduled/delete/{postId}" + id + " Scheduled post deleted");
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

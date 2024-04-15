@@ -9,8 +9,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -50,7 +49,7 @@ public class PostRepositoryTest {
 
         Post result = postRepository.findPostById(1L);
 
-        assertTrue(result.equals(post));
+        assertEquals(result, post);
 
     }
 
@@ -64,7 +63,7 @@ public class PostRepositoryTest {
 
         Post result = postRepository.findPostById(2L);
 
-        assertTrue(result == null);
+        assertNull(result);
 
     }
 }

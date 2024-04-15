@@ -32,7 +32,7 @@ public class TagServiceTest {
 
     @Test
     void test_createTags() {
-        TestPost();
+        createDb();
         TagCreationReq tagsFromData = new TagCreationReq("Test tag");
         tagService.createTags(1L, tagsFromData);
         PostTag postTag = tagService.findPostTagById(4L);
@@ -42,23 +42,23 @@ public class TagServiceTest {
 
     @Test
     void test_deleteTags() {
-        TestPost();
-        assertTrue(tagService.findPostTagById(1L) != null);
+        createDb();
+        assertNotNull(tagService.findPostTagById(1L));
         tagService.deleteTags(1L);
         assertThrows(NotFoundPostTagException.class, () -> tagService.findPostTagById(1L));
     }
 
     @Test
     void test_tagsDetails() {
-        TestPost();
+        createDb();
         PostTag postTag = tagService.findPostTagById(1L);
         TagDetails tagDetails = modelMapper.map(postTag, TagDetails.class);
-        assertTrue(postTag.getTagsName().equals(tagDetails.getTagsName()));
+        assertEquals(postTag.getTagsName(), tagDetails.getTagsName());
     }
 
     @Test
     void test_editComment() {
-        TestPost();
+        createDb();
         PostTag postTag = tagService.findPostTagById(1L);
         assertEquals("New tag", postTag.getTagsName());
 
@@ -70,14 +70,14 @@ public class TagServiceTest {
 
     @Test
     void test_findPostTagById() {
-        TestPost();
+        createDb();
         PostTag postTag = tagService.findPostTagById(1L);
         assertEquals("New tag", postTag.getTagsName());
     }
 
     @Test
     void test_getPostTagListItems() {
-        TestPost();
+        createDb();
         List<ListPostTagsRes> result = tagService.getPostTagListItems();
         PostTag postTag = entityManager.find(PostTag.class, 1L);
         PostTag postTag2 = entityManager.find(PostTag.class, 2L);
@@ -89,7 +89,7 @@ public class TagServiceTest {
 
     }
 
-    private void TestPost() {
+    private void createDb() {
         entityManager.createNativeQuery(
                 "INSERT INTO category (category_name) VALUES ('Test Category 1'); " +
                         "INSERT INTO post (title, post_Body, img_Url, category_id, deleted, scheduled, likes) VALUES ('New Post', 'Content','new URL',1,false,false,0); " +

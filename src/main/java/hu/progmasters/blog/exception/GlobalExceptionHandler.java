@@ -1,17 +1,15 @@
-/*
- * Copyright © Progmasters (QTC Kft.), 2018.
- * All rights reserved. No part or the whole of this Teaching Material (TM) may be reproduced, copied, distributed,
- * publicly performed, disseminated to the public, adapted or transmitted in any form or by any means, including
- * photocopying, recording, or other electronic or mechanical methods, without the prior written permission of QTC Kft.
- * This TM may only be used for the purposes of teaching exclusively by QTC Kft. and studying exclusively by QTC Kft.’s
- * students and for no other purposes by any parties other than QTC Kft.
- * This TM shall be kept confidential and shall not be made public or made available or disclosed to any unauthorized person.
- * Any dispute or claim arising out of the breach of these provisions shall be governed by and construed in accordance with the laws of Hungary.
- */
-
 package hu.progmasters.blog.exception;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import hu.progmasters.blog.exception.account.AccountNotFoundException;
+import hu.progmasters.blog.exception.account.FieldNotAvailableException;
+import hu.progmasters.blog.exception.account.InsufficientAmountException;
+import hu.progmasters.blog.exception.account.PasswordMismatchException;
+import hu.progmasters.blog.exception.category.CategoryNotExistsException;
+import hu.progmasters.blog.exception.comment.NotFoundCommentException;
+import hu.progmasters.blog.exception.posts.NotFoundPostException;
+import hu.progmasters.blog.exception.posts.NotFoundPostTagException;
+import hu.progmasters.blog.exception.posts.PastDateException;
 import io.jsonwebtoken.JwtException;
 import hu.progmasters.blog.service.EmailService;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +29,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 @Slf4j
@@ -56,14 +55,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(processFieldErrors(fieldErrors), HttpStatus.BAD_REQUEST);
     }
 
-    private ValidationError processFieldErrors(List<FieldError> fieldErrors) {
-        ValidationError validationError = new ValidationError();
-
-        for (FieldError fieldError : fieldErrors) {
-            validationError.addFieldError(fieldError.getField(), messageSource.getMessage(fieldError, Locale.getDefault()));
-        }
-
-        return validationError;
+    public ValidationError processFieldErrors(List<FieldError> fieldErrors) {
+        return ValidationError.builder()
+                .fieldErrors(fieldErrors.stream()
+                        .map(fieldError -> new ValidationError.CustomFieldError(
+                                fieldError.getField(),
+                                messageSource.getMessage(fieldError, Locale.getDefault())))
+                        .collect(Collectors.toList()))
+                .build();
     }
 
     @ExceptionHandler(JsonParseException.class)
@@ -71,7 +70,7 @@ public class GlobalExceptionHandler {
         logger.error("Request JSON could no be parsed: ", ex);
         HttpStatus status = HttpStatus.BAD_REQUEST;
 
-        ApiError body = new ApiError("JSON_PARSE_ERROR","The request could not be parsed as a valid JSON.", ex.getLocalizedMessage());
+        ApiError body = new ApiError("JSON_PARSE_ERROR", "The request could not be parsed as a valid JSON.", ex.getLocalizedMessage());
 
         return new ResponseEntity<>(body, status);
 
@@ -96,6 +95,7 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(body, status);
     }
+
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<ApiError> handleUsernameNotFoundException(UsernameNotFoundException ex) {
         logger.error("Username not found: ", ex);
@@ -103,6 +103,7 @@ public class GlobalExceptionHandler {
         HttpStatus status = HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(apiError, status);
     }
+
     @ExceptionHandler(JwtException.class)
     public ResponseEntity<ApiError> handleJwtException(JwtException ex) {
         logger.error("Invalid token: ", ex);
@@ -117,35 +118,39 @@ public class GlobalExceptionHandler {
         ApiError body = new ApiError("POST_NOT_FOUND_ERROR", "no post found with id", t.getLocalizedMessage());
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(NotFoundPostTagException.class)
     public ResponseEntity<ApiError> handlePostTagNotFound(Throwable t) {
         log.error("An not found postTag error occurred: ", t);
         ApiError body = new ApiError("POST_TAG_NOT_FOUND_ERROR", "no tag found with id", t.getLocalizedMessage());
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(InsufficientAmountException.class)
     public ResponseEntity<ApiError> handleInsufficientAmount(Throwable t) {
         log.error("An not found postTag error occurred: ", t);
-        ApiError body = new ApiError("INSUFFICIENT_FUNDS_ERROR", "kevés a pííínz", t.getLocalizedMessage());
+        ApiError body = new ApiError("INSUFFICIENT_FUNDS_ERROR", "Insufficient amount of money", t.getLocalizedMessage());
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(NotFoundCommentException.class)
     public ResponseEntity<ApiError> handleCommentNotFound(Throwable t) {
         log.error("An not found comment error occurred: ", t);
         ApiError body = new ApiError("COMMENT_NOT_FOUND_ERROR", "No comment found with id", t.getLocalizedMessage());
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
-    @ExceptionHandler(NotFoundAccountException.class)
+
+    @ExceptionHandler(AccountNotFoundException.class)
     public ResponseEntity<ApiError> handleAccountNotFound(Throwable t) {
         log.error("An not found account error occurred: ", t);
         ApiError body = new ApiError("ACCOUNT_NOT_FOUND_ERROR", "No account found with email", t.getLocalizedMessage());
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(DateEarlierThanTheCurrentOneException.class)
+    @ExceptionHandler(PastDateException.class)
     public ResponseEntity<ApiError> handleDateEarlier(Throwable t) {
         log.error("An earlie date error occurred: ", t);
-        ApiError body = new ApiError("EARLY_DATE_ERROR", "The date is earlier than the current one", t.getLocalizedMessage());
+        ApiError body = new ApiError("EARLY_DATE_ERROR", "The specified date is earlier than the current date", t.getLocalizedMessage());
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 
@@ -156,6 +161,7 @@ public class GlobalExceptionHandler {
 //                List.of(new ValidationError()),
                 HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(FieldNotAvailableException.class)
     public ResponseEntity<ApiError> handleFieldNotAvailableException(FieldNotAvailableException ex) {
         logger.error("Unavailable field error: ", ex);
@@ -163,6 +169,7 @@ public class GlobalExceptionHandler {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         return new ResponseEntity<>(apiError, status);
     }
+
     @ExceptionHandler(PasswordMismatchException.class)
     public ResponseEntity<ApiError> handlePasswordsArentMatchingException(PasswordMismatchException ex) {
         logger.error("Passwords are not matching: ", ex);
@@ -170,8 +177,9 @@ public class GlobalExceptionHandler {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         return new ResponseEntity<>(apiError, status);
     }
+
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ApiError> handleAccessDeniedException(AccessDeniedException ex){
+    public ResponseEntity<ApiError> handleAccessDeniedException(AccessDeniedException ex) {
         logger.error("Access denied:", ex);
         ApiError apiError = new ApiError("ACCESS_DENIED", "No appropriate authorisation level", ex.getMessage());
         HttpStatus status = HttpStatus.FORBIDDEN;

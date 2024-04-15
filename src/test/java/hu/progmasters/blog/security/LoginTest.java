@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
+import static hu.progmasters.blog.controller.constants.Endpoints.ACCOUNT_MAPPING;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -26,15 +27,17 @@ class LoginTest {
 
     @Autowired
     private EntityManager entityManager;
+
+    private static final String LOGIN_MAPPING = ACCOUNT_MAPPING + "/login";
     @Test
     void testLoginSuccess() throws Exception {
-        addUser();
+        createDb();
         String inputCommand = "{\n" +
                 "    \"username\": \"tesztElek\",\n" +
                 "    \"password\": \"testPassword\"" +
                 "}";
 
-        mockMvc.perform(post("/api/user/login")
+        mockMvc.perform(post(LOGIN_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(inputCommand))
                 .andExpect(status().isOk())
@@ -43,13 +46,13 @@ class LoginTest {
 
     @Test
     void testLoginInvalidParameters() throws Exception {
-        addUser();
+        createDb();
         String inputCommand = "{\n" +
                 "    \"username\": \"wrongUser\",\n" +
                 "    \"password\": \"wrongPassword\"\n" +
                 "}";
 
-        mockMvc.perform(post("/api/user/login")
+        mockMvc.perform(post(LOGIN_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(inputCommand))
                 .andExpect(status().isUnauthorized())
@@ -58,13 +61,13 @@ class LoginTest {
 
     @Test
     void testLoginMissingPassword() throws Exception {
-        addUser();
+        createDb();
         String inputCommand = "{\n" +
                 "    \"username\": \"testUser\",\n" +
                 "    \"password\": \"\"\n" +
                 "}";
 
-        mockMvc.perform(post("/api/user/login")
+        mockMvc.perform(post(LOGIN_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(inputCommand))
                 .andExpect(status().isUnauthorized())
@@ -72,19 +75,19 @@ class LoginTest {
     }
     @Test
     void testLoginMissingUsername() throws Exception {
-        addUser();
+        createDb();
         String inputCommand = "{\n" +
                 "    \"username\": \"\",\n" +
                 "    \"password\": \"testPassword\"\n" +
                 "}";
 
-        mockMvc.perform(post("/api/user/login")
+        mockMvc.perform(post(LOGIN_MAPPING)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(inputCommand))
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.message", is("Authentication Failed")));
     }
-    private void addUser() {
+    private void createDb() {
         entityManager.createNativeQuery(
                 "INSERT INTO account (username,password,role,email,newsletter,premium) VALUES ('tesztElek', '$2a$10$RVP8Q2ybES8dJVGbJP54xehMmrzetBxHJZzNNhvBvRmv2gl7bkNt2', 2,'elek@elek.com', true, true);"
         ).executeUpdate();

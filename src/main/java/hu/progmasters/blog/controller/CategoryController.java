@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+import static hu.progmasters.blog.controller.constants.Endpoints.CATEGORIES_MAPPING;
+
 @RestController
-@RequestMapping("/api/categories")
+@RequestMapping(CATEGORIES_MAPPING)
 @AllArgsConstructor
 @Slf4j
 public class CategoryController {

@@ -9,7 +9,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import javax.persistence.EntityManager;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -22,12 +22,12 @@ public class CategoryRepositoryTest {
 
     @Test
     public void testFindByCategoryName(){
-        TestPost();
-        Optional<PostCategory> result = Optional.ofNullable(categoryRepository.findByCategoryName("Test Category 1").orElse(null));
+        createDb();
+        Optional<PostCategory> result = categoryRepository.findByCategoryName("Test Category 1");
         PostCategory category = entityManager.find(PostCategory.class,1L);
-        assertTrue(category.getCategoryName().equals(result.get().getCategoryName()));
+        assertEquals(category.getCategoryName(), result.get().getCategoryName());
     }
-    private void TestPost() {
+    private void createDb() {
         entityManager.createNativeQuery(
                 "INSERT INTO category (category_name) VALUES ('Test Category 1'); " +
                         "INSERT INTO post (title, post_Body, img_Url, category_id, deleted, scheduled, likes) VALUES ('New Post', 'Content','new URL',1 , false, false, 0); " +

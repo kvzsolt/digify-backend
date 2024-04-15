@@ -2,7 +2,7 @@ package hu.progmasters.blog.service;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import hu.progmasters.angularblog.exception.CloudinaryException;
+import hu.progmasters.blog.exception.imagevalidator.CloudinaryException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

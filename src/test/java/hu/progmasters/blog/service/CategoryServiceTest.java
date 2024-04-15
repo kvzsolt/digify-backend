@@ -14,7 +14,6 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -38,25 +37,25 @@ public class CategoryServiceTest {
 
     @Test
     void test_getCategoryListItems() {
-        TestPost();
+        createDb();
         List<CategoryListItemReq> result = categoryService.getCategoryListItems();
         PostCategory postCategory = entityManager.find(PostCategory.class, 1L);
         PostCategory postCategory2 = entityManager.find(PostCategory.class, 2L);
         PostCategory postCategory3 = entityManager.find(PostCategory.class, 3L);
 
-        assertTrue(result.get(0).getCategory().equals(postCategory.getCategoryName()));
-        assertTrue(result.get(1).getCategory().equals(postCategory2.getCategoryName()));
-        assertTrue(result.get(2).getCategory().equals(postCategory3.getCategoryName()));
+        assertEquals(result.get(0).getCategory(), postCategory.getCategoryName());
+        assertEquals(result.get(1).getCategory(), postCategory2.getCategoryName());
+        assertEquals(result.get(2).getCategory(), postCategory3.getCategoryName());
     }
 
     @Test
     void test_getCategoryByName() {
-        TestPost();
+        createDb();
         PostCategory postCategory = categoryService.getCategoryByName("Test Category 1");
         assertEquals("Test Category 1", postCategory.getCategoryName());
     }
 
-    private void TestPost() {
+    private void createDb() {
         entityManager.createNativeQuery(
                 "INSERT INTO category (category_name) VALUES ('Test Category 1'); " +
                         "INSERT INTO category (category_name) VALUES ('Test Category 2'); " +

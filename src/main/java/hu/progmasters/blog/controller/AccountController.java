@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.security.auth.login.AccountNotFoundException;
 import javax.validation.Valid;
 
+import static hu.progmasters.blog.controller.constants.Endpoints.ACCOUNT_MAPPING;
+
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping(ACCOUNT_MAPPING)
 @AllArgsConstructor
 @Slf4j
 public class AccountController {
@@ -36,7 +38,6 @@ public class AccountController {
     @PreAuthorize("hasRole('ROLE_GUEST')")
     @PostMapping("/request")
     public ResponseEntity<RegistrationInfo> requestPasswordReset(@Valid @RequestBody ResetPasswordWithEmailReq withEmailFromData) throws AccountNotFoundException {
-       log.info(withEmailFromData.getEmail() + "---------------------------------");
         RegistrationInfo registrationInfo = accountService.resetPasswordRequest(withEmailFromData.getEmail());
         log.info("Http request, POST /api/user/request Password reset request");
         return new ResponseEntity<>(registrationInfo, HttpStatus.OK);

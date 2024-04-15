@@ -14,8 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -30,7 +29,7 @@ public class PostServiceTest {
 
     @Test
     void test_createPost() {
-        TestPost();
+        createDb();
         CreatePostReq createPostReq = new CreatePostReq("Test Post", "Test Content", "new URL", "Test Category 1", 1L);
         postService.createPost(createPostReq);
         Post post = entityManager.find(Post.class, 4L);
@@ -42,27 +41,27 @@ public class PostServiceTest {
 
     @Test
     void test_getPostListItems() {
-        TestPost();
+        createDb();
         List<ListPostsRes> result = postService.getPostListItems();
         Post post = entityManager.find(Post.class, 1L);
         Post post3 = entityManager.find(Post.class, 3L);
 
-        assertTrue(result.get(0).getTitle().equals(post.getTitle()));
-        assertTrue(result.get(1).getTitle().equals(post3.getTitle()));
+        assertEquals(result.get(0).getTitle(), post.getTitle());
+        assertEquals(result.get(1).getTitle(), post3.getTitle());
     }
 
     @Test
     void test_getPostDetailsById() {
-        TestPost();
+        createDb();
         GetPostRes result = postService.getPostDetailsById(1L);
         Post post = entityManager.find(Post.class, 1L);
 
-        assertTrue(result.getTitle().equals(post.getTitle()));
+        assertEquals(result.getTitle(), post.getTitle());
     }
 
     @Test
     void test_findPostById() {
-        TestPost();
+        createDb();
         Post result = postService.findPostById(1L);
         Post post = entityManager.find(Post.class, 1L);
 
@@ -71,27 +70,27 @@ public class PostServiceTest {
 
     @Test
     void test_deletePost() {
-        TestPost();
+        createDb();
 
         Post post = entityManager.find(Post.class, 1L);
-        assertTrue(post.isDeleted() == false);
+        assertFalse(post.isDeleted());
 
         postService.deletePost(1L);
-        assertTrue(post.isDeleted() == true);
+        assertTrue(post.isDeleted());
     }
 
     @Test
     void test_restorationPost() {
-        TestPost();
+        createDb();
 
         Post post = entityManager.find(Post.class, 2L);
-        assertTrue(post.isDeleted() == true);
+        assertTrue(post.isDeleted());
 
         postService.restorationPost(2L);
-        assertTrue(post.isDeleted() == false);
+        assertFalse(post.isDeleted());
     }
 
-    private void TestPost() {
+    private void createDb() {
         entityManager.createNativeQuery(
                 "INSERT INTO account (username,password,role,email,newsletter,premium) VALUES ('Test Kata','$2a$10$yyKaHq8PYGDVVLeim1l6vOuibvBUiIzok/HjB3BJxTnu36EXRngau',2,'blog@blog.com',false,false); " +
                         "INSERT INTO category (category_name) VALUES ('Test Category 1'); " +

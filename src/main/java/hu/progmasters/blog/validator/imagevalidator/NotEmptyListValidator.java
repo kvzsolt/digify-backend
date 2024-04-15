@@ -1,6 +1,6 @@
 package hu.progmasters.blog.validator.imagevalidator;
 
-import hu.progmasters.angularblog.exception.FilesMissingException;
+import hu.progmasters.blog.exception.imagevalidator.FilesMissingException;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.ConstraintValidator;

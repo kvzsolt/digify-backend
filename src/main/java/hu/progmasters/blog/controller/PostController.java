@@ -1,14 +1,3 @@
-/*
- * Copyright © Progmasters (QTC Kft.), 2018.
- * All rights reserved. No part or the whole of this Teaching Material (TM) may be reproduced, copied, distributed,
- * publicly performed, disseminated to the public, adapted or transmitted in any form or by any means, including
- * photocopying, recording, or other electronic or mechanical methods, without the prior written permission of QTC Kft.
- * This TM may only be used for the purposes of teaching exclusively by QTC Kft. and studying exclusively by QTC Kft.’s
- * students and for no other purposes by any parties other than QTC Kft.
- * This TM shall be kept confidential and shall not be made public or made available or disclosed to any unauthorized person.
- * Any dispute or claim arising out of the breach of these provisions shall be governed by and construed in accordance with the laws of Hungary.
- */
-
 package hu.progmasters.blog.controller;
 
 import com.itextpdf.text.DocumentException;
@@ -34,8 +23,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import static hu.progmasters.blog.controller.constants.Endpoints.POSTS_MAPPING;
+
 @RestController
-@RequestMapping("/api/posts")
+@RequestMapping(POSTS_MAPPING)
 @AllArgsConstructor
 @Slf4j
 public class PostController {
@@ -50,7 +41,7 @@ public class PostController {
     public ResponseEntity createPost(@Valid @RequestBody CreatePostReq createPostReq) throws DocumentException, IOException {
         postService.createPost(createPostReq);
         log.info("Http request, POST /api/posts/ Post created");
-//        emailService.sendEmail("blogprogmasters@gmail.com", "Post created", "Http request, POST /api/posts/ Post created");
+        emailService.sendEmail("blogprogmasters@gmail.com", "Post created", "Http request, POST /api/posts/ Post created");
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
@@ -72,10 +63,10 @@ public class PostController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN') or (hasRole('ROLE_AUTHOR') and @customPermissionEvaluator.isOwnPost(authentication, #id))")
-    @PutMapping("/scheduled/deleted/{postId}")
+    @PutMapping("/scheduled/delete/{postId}")
     public ResponseEntity deleteSheduledPost(@PathVariable("postId") Long id) {
         postService.deleteScheduledPost(id);
-        log.info("Http request, PUT /api/posts/scheduled/deleted/{postId}" + id + " Scheduled post deleted");
+        log.info("Http request, PUT /api/posts/scheduled/delete/{postId}" + id + " Scheduled post deleted");
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

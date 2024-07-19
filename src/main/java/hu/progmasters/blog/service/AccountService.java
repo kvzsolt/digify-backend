@@ -119,8 +119,7 @@ public class AccountService {
         String token = jwtTokenUtil.generatePasswordResetToken(account);
 
         String resetLink = "http://localhost:8080/api/public/user/reset?token=" + token;
-        String emailBody = "Kattintson ide a jelszó visszaállításához: " + resetLink;
-        emailService.sendEmail(email, "Jelszó visszaállítása", emailBody);
+        emailService.sendPasswordResetEmail(email, account.getUsername(), resetLink);
         return new RegistrationInfo("A jelszó visszaállítási linket elküldtük az e-mail címére.");
     }
 
@@ -136,7 +135,7 @@ public class AccountService {
         }
         account.setPassword(passwordEncoder.encode(data.getPassword()));
         accountRepository.save(account);
-        emailService.sendEmail(email,"Jelszó visszaállítás","Jelszó sikeresen frissítve :)");
+        emailService.sendPasswordResetSuccessEmail(account.getEmail(), account.getRealName());
         return new RegistrationInfo("A jelszó sikeresen frissítve");
     }
 

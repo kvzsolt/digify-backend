@@ -54,7 +54,7 @@ public class PaypalController {
     public RedirectView completePayment(@RequestParam("token") String token,
                                         @RequestParam("accountId") Long id,
                                         @RequestParam("amount") BigDecimal amount) throws DocumentException, IOException {
-        log.info("Http request, POST /api/paypal/capture Paypal payd confirmed");
+        log.info("Http request, POST /api/paypal/capture Paypal pay confirmed");
         return paypalService.capture(token, id, amount);
     }
 
@@ -71,7 +71,6 @@ public class PaypalController {
     @GetMapping("/payment-cancel")
     public String handlePaymentCancel() {
         String htmlContent = "<html><body><h1>Payment cancel!</h1></body></html>";
-        emailService.sendEmail("blogprogmasters@gmail.com", "Payment ", "Payment canceled");
         log.info("Http request, GET /api/paypal/payment-cancel Paypal payment cancel");
         return htmlContent;
     }

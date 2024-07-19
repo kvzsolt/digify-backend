@@ -25,16 +25,12 @@ import static hu.progmasters.blog.controller.constants.Endpoints.COMMENTS_MAPPIN
 public class CommentController {
 
     private CommentService commentService;
-    private EmailService emailService;
-    private PostService postService;
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping
     public ResponseEntity createComment(@Valid @RequestBody CommentFormReq commentFormReq) {
         commentService.createComment(commentFormReq);
         log.info("Http request, POST /api/comments  Comment created");
-        emailService.sendEmail(postService.findPostById(commentFormReq.getPostId()).getAccount().getEmail(), "Notification: New Comment on Your Post ID: " + commentFormReq.getPostId(),
-                "Someone commented on your post! Post ID: " + commentFormReq.getPostId());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

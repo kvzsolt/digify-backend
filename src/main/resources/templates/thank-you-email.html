@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Template</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; margin: 40px; background-color: #f4f4f9; }
+        h1 { color: #333366; }
+        p { color: #555555; font-size: 16px; }
+        .footer { margin-top: 20px; font-size: 14px; color: #777777; }
+        .content { background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+<div class="content">
+    <h1>Thank You for Subscribing to Premium!</h1>
+    <p>Dear <span th:text="${customerName}">Customer Name</span>,</p>
+    <p>Thank you for subscribing to our Premium membership. Enjoy the exclusive benefits!</p>
+    <p class="footer">Best regards,<br>Digify</p>
+</div>
+</body>
+</html>

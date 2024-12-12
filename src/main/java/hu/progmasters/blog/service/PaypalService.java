@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,6 +21,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+
 
 @Service
 @Slf4j
@@ -153,9 +153,10 @@ public class PaypalService {
         Account account = accountService.findAccountById(id);
         CompleteOrder order = new CompleteOrder("Successful Digify premium membership purchase", token);
         createOrder(order, id);
-        emailService.sendEmailWithAttachment(order,account, amount);
         accountService.setPremium(account);
         billingoService.createReceipt(order, account);
+        emailService.sendThankYouEmail(account.getEmail(), account.getRealName());
+
 
         webClient.post()
                 .retrieve()
@@ -178,4 +179,6 @@ public class PaypalService {
         modelAndView.addObject("amount", amount);
         return modelAndView;
     }
+
+
 }

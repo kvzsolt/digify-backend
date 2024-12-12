@@ -41,7 +41,6 @@ public class PostController {
     public ResponseEntity createPost(@Valid @RequestBody CreatePostReq createPostReq) throws DocumentException, IOException {
         postService.createPost(createPostReq);
         log.info("Http request, POST /api/posts/ Post created");
-        emailService.sendEmail("blogprogmasters@gmail.com", "Post created", "Http request, POST /api/posts/ Post created");
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
@@ -150,8 +149,7 @@ public class PostController {
                                                @ModelAttribute @Valid PostImage postImage) throws IOException {
         log.info("Http request, PUT /api/posts/uploadImages/{postId}, image(s) uploaded to post id: " + id);
         if (!imageUploadService.uploadImage(postImage)) {
-            emailService.sendEmail("blogprogmasters@gmail.com", "Potential Explicit Content Upload, POST ID: " + id,
-                    "An attempted upload of explicit content was blocked by the system. Requesting admin review to ensure the uploaded  post (id: " + id + ") itself doesn't contain any explicit material!");
+            log.info("A post with with explicit image was blocked");
             return new ResponseEntity<>("One of the selected images contains explicit content and cannot be uploaded.", HttpStatus.BAD_REQUEST);
         } else {
             String result = postService.uploadImage(id, postImage);

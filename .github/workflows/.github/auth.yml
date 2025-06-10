@@ -22,7 +22,7 @@ jobs:
         with:
           token_format: access_token
           workload_identity_provider: "projects/651379271034/locations/global/workloadIdentityPools/digify-pool/providers/digify-github-provider"
-          service_account: "digify-app-accessor@digify-458811.iam.gserviceaccount.com"
+
 
       - name: Verify authentication
         run: |

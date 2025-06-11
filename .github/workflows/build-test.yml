@@ -80,5 +80,12 @@ jobs:
           echo "MAIL_USERNAME=$MAIL_USERNAME" >> $GITHUB_ENV
           echo "OPENAI_API_KEY=$OPENAI_API_KEY" >> $GITHUB_ENV
 
-      - name: Build project
-        run: ./gradlew build
+      - name: Set up Java and Maven
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+
+      - name: Build with Maven
+        run: mvn clean install --batch-mode --update-snapshots

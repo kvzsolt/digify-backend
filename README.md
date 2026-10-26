@@ -1,7 +1,7 @@
 # Digify
 
 ## Description
-
+### Zero AI were used for this project during development, literally a dinosaur. (OpenAI Integration is for functions) ###
 **Digify** is a modern technology news portal.  
 This is the backend service, built with **Java Spring Boot REST API**.
 
